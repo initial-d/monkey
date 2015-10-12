@@ -1,0 +1,108 @@
+// Compiler auto-generated.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "runtime.h"
+
+typedef void (*ty_fun_ptr)();
+typedef int *ty_int_ptr;
+void ml_exit (void *x)
+{
+  exit (0);
+}
+
+void k_180(void *x_218)
+{
+  ty_int_ptr x_117 = (ty_int_ptr)((ty_int_ptr)x_218)[2];
+  ty_int_ptr env_304 = (ty_int_ptr)((ty_int_ptr)x_218)[1];
+  ty_int_ptr k_69 = (ty_int_ptr)((ty_int_ptr)env_304)[1];
+  ty_int_ptr x_120 = (ty_int_ptr)1;
+  ty_int_ptr k_182 = (ty_int_ptr)((ty_int_ptr)k_69)[1];
+  ty_int_ptr env_311 = (ty_int_ptr)((ty_int_ptr)k_69)[2];
+
+    ty_int_ptr x_219 = allocTuple(2);
+  x_219[(int)2] = (int)x_120;
+  x_219[(int)1] = (int)env_311;
+
+  ((ty_fun_ptr)k_182) (x_219);
+  
+}
+
+
+void k_177(void *x_220)
+{
+  ty_int_ptr x_116 = (ty_int_ptr)((ty_int_ptr)x_220)[2];
+  ty_int_ptr env_305 = (ty_int_ptr)((ty_int_ptr)x_220)[1];
+  ty_int_ptr k_69 = (ty_int_ptr)((ty_int_ptr)env_305)[1];
+  ty_int_ptr x_119 = (ty_int_ptr)0;
+  ty_int_ptr k_179 = (ty_int_ptr)((ty_int_ptr)k_69)[1];
+  ty_int_ptr env_309 = (ty_int_ptr)((ty_int_ptr)k_69)[2];
+
+    ty_int_ptr x_221 = allocTuple(2);
+  x_221[(int)2] = (int)x_119;
+  x_221[(int)1] = (int)env_309;
+
+  ((ty_fun_ptr)k_179) (x_221);
+  
+}
+
+
+void k_176(void *x_222)
+{
+  ty_int_ptr x_115 = (ty_int_ptr)((ty_int_ptr)x_222)[2];
+  ty_int_ptr env_306 = (ty_int_ptr)((ty_int_ptr)x_222)[1];
+
+  
+  ml_exit (x_115);
+  
+}
+
+
+void ml_main()
+{
+  ty_int_ptr x_118 = (ty_int_ptr)2;
+  ty_int_ptr env_307 = allocTuple(0);
+  ty_int_ptr k_69 = allocTuple(2);
+  k_69[(int)1] = (int)k_176;
+  k_69[(int)2] = (int)env_307;
+  ty_int_ptr env_308 = allocTuple(1);
+  env_308[(int)1] = (int)k_69;
+  ty_int_ptr k_70 = allocTuple(2);
+  k_70[(int)1] = (int)k_177;
+  k_70[(int)2] = (int)env_308;
+  ty_int_ptr env_310 = allocTuple(1);
+  env_310[(int)1] = (int)k_69;
+  ty_int_ptr k_71 = allocTuple(2);
+  k_71[(int)1] = (int)k_180;
+  k_71[(int)2] = (int)env_310;
+  ty_int_ptr x_217 = 0;
+  ty_int_ptr k_184 = (ty_int_ptr)((ty_int_ptr)k_70)[1];
+  ty_int_ptr env_312 = (ty_int_ptr)((ty_int_ptr)k_70)[2];
+  ty_int_ptr k_186 = (ty_int_ptr)((ty_int_ptr)k_71)[1];
+  ty_int_ptr env_313 = (ty_int_ptr)((ty_int_ptr)k_71)[2];
+
+  
+  if( (int)x_118 ==0 )
+  {  ty_int_ptr x_223 = allocTuple(2);
+  x_223[(int)2] = (int)x_217;
+  x_223[(int)1] = (int)env_312;
+
+  ((ty_fun_ptr)k_184) (x_223);
+  
+  } else {
+  ty_int_ptr x_224 = allocTuple(2);
+  x_224[(int)2] = (int)x_217;
+  x_224[(int)1] = (int)env_313;
+
+  ((ty_fun_ptr)k_186) (x_224);
+  
+  }
+  
+}
+
+int main ()
+{
+  ml_main ();
+  return 0;
+}
+

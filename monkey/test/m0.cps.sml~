@@ -1,0 +1,14 @@
+datatype ('a, 'b) s = In1 of 'a | In2 of 'b
+fun exit x = ()
+val cps_code =
+let val x_10 = fn (k_5, x) => 
+        let val x_11 = 99
+        in
+            k_5 x_11
+
+        end
+
+
+in
+    exit x_10
+end

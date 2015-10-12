@@ -1,0 +1,129 @@
+structure CpsConvert: CPS_CONVERT =
+struct
+
+exception NoRule
+
+val counter1 = ref 0
+fun freshCont ()=
+    let val n = !counter1
+        val _ = counter1 :=(n+1)
+    in "k_"^(Int.toString (n))
+    end
+
+val counter2 = ref 0
+fun freshVal ()=
+    let val n = !counter2
+        val _ = counter2 :=(n+1)
+    in "x_"^(Int.toString (n))
+    end
+
+fun transo (option: MLAst.PrimOp.t): Cps.PrimOp.t =
+    case option 
+     of MLAst.PrimOp.Add => Cps.PrimOp.Add
+      | MLAst.PrimOp.Sub => Cps.PrimOp.Sub
+      | MLAst.PrimOp.Times => Cps.PrimOp.Times
+      | MLAst.PrimOp.Print => Cps.PrimOp.Print
+      | MLAst.PrimOp.Int2String => Cps.PrimOp.Int2String
+
+fun tuple (l: string list) =
+    Cps.Tuple l
+
+fun transTuple (ts: MLAst.t list, strs: string list
+              , g: string list -> Cps.t): Cps.t =
+    case ts 
+     of [] => g (rev(strs))
+      | t::l => trans(t, fn x => transTuple(l, x::strs, g))
+
+
+and trans (x: MLAst.t , k: string -> Cps.t) =
+    case x of
+        MLAst.Var x => k(x)
+      | MLAst.Empty => 
+	let val x = freshVal() 
+	in Cps.LetVal (x, 
+		       Cps.Empty ,
+		       k x) end
+      | MLAst.Num i => 
+	let val x = freshVal () 
+  	in Cps.LetVal (x,
+		       Cps.Num i,
+		       k x) end
+      | MLAst.String x => 
+	let val s = freshVal () 
+	in Cps.LetVal (s,
+		       Cps.String x,
+		       k s) end
+      | MLAst.App (t1, t2) => 
+	let val k1 = freshCont()
+	    val x = freshVal ()
+	in trans (t1, fn z1 => 
+			 trans (t2, fn z2 => 
+				       Cps.LetCont(k1, x, k x, 
+						   Cps.FuncApp(z1, k1, z2)))) end
+      | MLAst.FuncVal (x, t) => 
+	let val f = freshVal() 
+	    val k1 = freshCont () in
+	    Cps.LetVal (f,
+			Cps.FuncVal (k1, x,  
+				     trans(t
+					  , fn z =>
+					       Cps.ContApp(k1, z))),
+			k f
+		       ) end
+      | MLAst.Tag (i, t) => trans(t, fn z =>
+					let val x = freshVal() in
+					    Cps.LetVal (x,
+							Cps.Tag(i,
+								z),
+							k x) end)
+      | MLAst.LetVal (x, t1, t2) => let val j = freshCont()
+				    in Cps.LetCont(j, x, trans(t2, k),
+						   trans(t1, fn z => 
+							       Cps.ContApp(j, z))) end
+      | MLAst.Tuple (l) => transTuple(l, nil, fn z =>
+						 let val x = freshVal() 
+						 in Cps.LetVal(x, tuple(z), k x) end) 
+      | MLAst.Proj (i, t) => trans(t, fn z =>
+					 let val x = freshVal() in
+					     Cps.Let(x, i, z, k x) end) 
+      | MLAst.Case (t, x1, t1, x2, t2) => let val k0 = freshCont() 
+					      val x0 = freshVal()
+					      val k1 = freshCont()
+					      val k2 = freshCont() 
+					  in trans(t, fn z => 
+							 Cps.LetCont(k0, x0, k x0,
+								     Cps.LetCont(k1, x1, 
+										 trans(t1, fn z1 =>
+											      Cps.ContApp(k0, z1)), 
+										 Cps.LetCont(k2, x2, 
+											     trans(t2, fn z2 => 
+													  Cps.ContApp(k0, z2)), 
+											     Cps.Case(z, k1, k2) )))) end
+      | MLAst.Prims (t, l) => transTuple(l, nil, fn z => 
+						    let val x = freshVal() 
+						    in Cps.LetPrim(x, transo(t), z, k x) 
+					end)  
+      | MLAst.If0 (t1, t2, t3) => let val k0 = freshCont()
+				      val k1 = freshCont()
+				      val k2 = freshCont()
+				      val x0 = freshVal()
+				      val x1 = freshVal()
+				      val x2 = freshVal()
+				  in  trans(t1, fn z =>
+						   Cps.LetCont(k0, x0, k x0,
+							       Cps.LetCont(k1, x1, 
+									   trans(t2, fn z1 =>
+											Cps.ContApp(k0, z1)), 
+									   Cps.LetCont(k2, x2, 
+										       trans(t3,  fn z2 => 
+												     Cps.ContApp(k0, z2)), 
+										       Cps.If0(z, k1, k2))))) end
+      | MLAst.LetFix (x1, x2, t1, t2) => let val k1 = freshCont() 
+					 in Cps.LetFix(x1, k1 , x2, 
+						       trans(t1, fn z =>
+								    Cps.ContApp(k1, z)),
+						       trans(t2, k)) end
+
+        
+end
+

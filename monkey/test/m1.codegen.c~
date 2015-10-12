@@ -1,0 +1,74 @@
+// Compiler auto-generated.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "runtime.h"
+
+typedef void (*ty_fun_ptr)();
+void ml_exit (void *x)
+{
+  exit (0);
+}
+
+void k_5(void *x_9)
+{
+  int * x_6 = (int*)((int*)x_9)[2];
+  int * env_11 = (int*)((int*)x_9)[1];
+
+  
+  ml_exit (x_6);
+  
+}
+
+
+void x_6(void *x_10)
+{
+  int * x = (int*)((int*)x_10)[3];
+  int * k_3 = (int*)((int*)x_10)[2];
+  int * env_9 = (int*)((int*)x_10)[1];
+  int * x_8 = (int*)((int*)x)[1];
+  int * k_4 = (int*)((int*)k_3)[1];
+  int * env_13 = (int*)((int*)k_3)[2];
+
+    int * x_11 = allocTuple(2);
+  x_11[(int)2] = (int)x_8;
+  x_11[(int)1] = (int)env_13;
+
+  ((ty_fun_ptr)k_4) (x_11);
+  
+}
+
+
+void ml_main()
+{
+  int * env_12 = allocTuple(0);
+  int * x_7 = allocTuple(2);
+  x_7[(int)1] = (int)x_6;
+  x_7[(int)2] = (int)env_12;
+  int * x_9 = (int *)"a";
+  int * x_10 = (int *)"b";
+  int * x_11 = allocTuple(2);
+  x_11[(int)1] = (int)x_9;
+  x_11[(int)2] = (int)x_10;
+  int * env_14 = allocTuple(0);
+  int * k_2 = allocTuple(2);
+  k_2[(int)1] = (int)k_5;
+  k_2[(int)2] = (int)env_14;
+  int * x_8 = (int*)((int*)x_7)[1];
+  int * env_15 = (int*)((int*)x_7)[2];
+
+    int * x_12 = allocTuple(3);
+  x_12[(int)3] = (int)x_11;
+  x_12[(int)2] = (int)k_2;
+  x_12[(int)1] = (int)env_15;
+
+  ((ty_fun_ptr)x_8) (x_12);
+  
+}
+
+int main ()
+{
+  ml_main ();
+  return 0;
+}
+

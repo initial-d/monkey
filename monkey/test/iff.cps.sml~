@@ -1,0 +1,33 @@
+datatype ('a, 'b) s = In1 of 'a | In2 of 'b
+fun exit x = ()
+val cps_code =
+let val x_118 = 2
+in
+    let fun k_69 x_115 =
+        exit x_115
+    in
+        let fun k_70 x_116 =
+            let val x_119 = 0
+            in
+                k_69 x_119
+
+            end
+
+        in
+            let fun k_71 x_117 =
+                let val x_120 = 1
+                in
+                    k_69 x_120
+
+                end
+
+            in
+                if x_118= 0 then k_70() else k_71()
+
+            end
+
+        end
+
+    end
+
+end

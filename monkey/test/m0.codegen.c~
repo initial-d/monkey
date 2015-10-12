@@ -1,0 +1,48 @@
+// Compiler auto-generated.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "runtime.h"
+
+typedef void (*ty_fun_ptr)();
+void ml_exit (void *x)
+{
+  exit (0);
+}
+
+void x_30(void *x_31)
+{
+  int * x = (int*)((int*)x_31)[3];
+  int * k_10 = (int*)((int*)x_31)[2];
+  int * env_41 = (int*)((int*)x_31)[1];
+  int * x_21 = 99;
+  int * k_14 = (int*)((int*)k_10)[1];
+  int * env_43 = (int*)((int*)k_10)[2];
+
+    int * x_32 = allocTuple(2);
+  x_32[(int)2] = (int)x_21;
+  x_32[(int)1] = (int)env_43;
+
+  ((ty_fun_ptr)k_14) (x_32);
+  
+}
+
+
+void ml_main()
+{
+  int * env_42 = allocTuple(0);
+  int * x_20 = allocTuple(2);
+  x_20[(int)1] = (int)x_30;
+  x_20[(int)2] = (int)env_42;
+
+  
+  ml_exit (x_20);
+  
+}
+
+int main ()
+{
+  ml_main ();
+  return 0;
+}
+

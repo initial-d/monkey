@@ -1,0 +1,53 @@
+datatype ('a, 'b) s = In1 of 'a | In2 of 'b
+fun exit x = ()
+val cps_code =
+let val x_13 = "z"
+in
+    let val x_14 = In1 x_13
+    in
+        let fun k_6 x_12 =
+            exit x_12
+        in
+            let fun k_7 x =
+                let val x_15 = "A"
+                in
+                    let val x_16 = "AA"
+                    in
+                        let val x_17 = (x_15, x_16)
+                        in
+                            k_6 x_17
+
+                        end
+
+                    end
+
+                end
+
+            in
+                let fun k_8 x1 =
+                    let val x_18 = "B"
+                    in
+                        let val x_19 = "BB"
+                        in
+                            let val x_20 = (x_18, x_19)
+                            in
+                                k_6 x_20
+
+                            end
+
+                        end
+
+                    end
+
+                in
+                    case x_14 of In1 z1 => k_7 z1 | In2 z2 => k_8 z2
+
+                end
+
+            end
+
+        end
+
+    end
+
+end
